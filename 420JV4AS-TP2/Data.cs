@@ -28,6 +28,13 @@ namespace _420JV4AS_TP2
             {'?','?','?','?','?','?','?','?','?','?' },
             {'?','?','?','?','?','?','?','?','?','?' }};
 
+        static char vissible = ' ';
+        static char invissible = '.';
+        static char observer = 'o';
+        static char obstacle = 'H';
+        static char defaultC = '?';
+
+
         static public void Init(int x,int y)
         {
             gridOcuppied = new bool[x, y];
@@ -37,7 +44,7 @@ namespace _420JV4AS_TP2
                 for (int j = 0; j < y; j++)
                 {
                     gridOcuppied[i,j] = false;
-                    gridOutput[i, j] = '?';
+                    gridOutput[i, j] = defaultC;
                 }
             }
 
@@ -46,7 +53,7 @@ namespace _420JV4AS_TP2
         static public void SwitchOcupation(int x,int y)
         {
             gridOcuppied[x, y] = !gridOcuppied[x, y];
-            gridOutput[x, y] = 'H';
+            gridOutput[x, y] = obstacle;
         }
 
         static public void BressenhamAll(int ox, int oy)
@@ -64,7 +71,7 @@ namespace _420JV4AS_TP2
                 BressenhamOnce(ox, oy, hight-1, j);
 
             }
-            gridOutput[ox, oy] = 'o';
+            gridOutput[ox, oy] = observer;
         }
 
         static public void BressenhamOnce(int x1, int y1, int  x2, int y2)
@@ -74,7 +81,7 @@ namespace _420JV4AS_TP2
 
         static public void PlotLineLow(int x0, int y0, int x1, int y1)
         {
-            char c = '.';
+            char c = vissible;
             int dx = x1 - x0;
             int dy = y1 - y0;
             int yi = 1;
@@ -87,11 +94,12 @@ namespace _420JV4AS_TP2
             int y = y0;
             for (int i = x0; i <= x1; i++)
             {
-                gridOutput[i, y] = c;
+                if (gridOutput[i, y] == defaultC || gridOutput[i, y] == invissible)
+                    gridOutput[i, y] = c;
                 if (gridOcuppied[i, y])
                 {
-                    c = 'x';
-                    gridOutput[i, y] = 'H';
+                    c = invissible;
+                    gridOutput[i, y] = obstacle;
                 }
                 if (D > 0)
                 {
@@ -104,7 +112,7 @@ namespace _420JV4AS_TP2
         }
         static public void PlotLineLow(int x1, int y1, int x0, int y0,bool rev)
         {           
-            char c = '.';
+            char c = vissible;
            
             int dx = x1 - x0;
             int dy = y1 - y0;
@@ -120,11 +128,12 @@ namespace _420JV4AS_TP2
             int y = y0;
             for (int i = x0; i <= x1; i++)
             {
-                gridOutput[ax - i, ay - y] = c;
+                if (gridOutput[ax - i, ay - y] == defaultC || gridOutput[ax - i, ay - y] == invissible)
+                    gridOutput[ax - i, ay - y] = c;
                 if (gridOcuppied[ax - i, ay - y])
                 {
-                    c = 'x';
-                    gridOutput[ax-i, ay-y] = 'H';
+                    c = invissible;
+                    gridOutput[ax-i, ay-y] = obstacle;
                 }
                 if (D > 0)
                 {
@@ -136,7 +145,7 @@ namespace _420JV4AS_TP2
         }
         static public void PlotLineHigh(int x0, int y0, int x1, int y1)
         {
-            char c = '.';
+            char c = vissible;
             int dx = x1 - x0;
             int dy = y1 - y0;
             int xi = 1;
@@ -149,11 +158,12 @@ namespace _420JV4AS_TP2
             int x = x0;
             for (int i = y0; i <= y1; i++)
             {
-                gridOutput[x, i] = c;
+                if (gridOutput[x, i] == defaultC || gridOutput[x, i] == invissible)
+                    gridOutput[x, i] = c;
                 if (gridOcuppied[x, i])
                 {
-                    c = 'x';
-                    gridOutput[x, i] = 'H';
+                    c = invissible;
+                    gridOutput[x, i] = obstacle;
                 }
                 if (D > 0)
                 {
@@ -165,7 +175,7 @@ namespace _420JV4AS_TP2
         }
         static public void PlotLineHigh(int x1, int y1, int x0, int y0,bool rev)
         {
-            char c = '.';
+            char c = vissible;
             int dx = x1 - x0;
             int dy = y1 - y0;
             int xi = 1;
@@ -180,11 +190,12 @@ namespace _420JV4AS_TP2
             int x = x0;
             for (int i = y0; i <= y1; i++)
             {
+                if(gridOutput[ax - x, ay - i]== defaultC || gridOutput[ax - x, ay - i] == invissible)
                 gridOutput[ax-x, ay-i] = c;
                 if (gridOcuppied[ax-x,ay- i])
                 {
-                    c = 'x';
-                    gridOutput[ax-x, ay-i] = 'H';
+                    c = invissible;
+                    gridOutput[ax-x, ay-i] = obstacle;
                 }
                 if (D > 0)
                 {
